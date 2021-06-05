@@ -6,7 +6,30 @@
     description: Enter you question here
     required: true
 
-- name: bb
+- name: profile
+  description: Gets information about you!
+  options:
+    - name: user
+      type: USER
+      description: User to check
+      required: false
+
+- name: serverinfo
+  description: Gets server information
+
+- name: achievement
+  description: Give out a reward
+  options:
+  - name: user
+    type: USER
+    description: User to give achievement to
+    required: true
+  - name: achievement
+    type: STRING
+    description: Achievement to give
+    required: true
+
+- name: beatbanger
   description: Beat Banger Commands
   options:
   - name: option

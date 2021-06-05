@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "discord.js": "github:iShibi/discord.js#fix-options",
     "dotenv": "^10.0.0",
+    "moment": "^2.29.1",
     "yaml": "^1.10.2"
   }
 }

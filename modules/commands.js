@@ -1,6 +1,63 @@
 const Discord = require('discord.js')
 const Func = require('./functions')
 const axios = require('axios').default;
+const moment = require('moment')
+
+exports.profile = async (client, interaction)=>{
+
+    var user_param = interaction.options.get('user')
+
+    user = user_param != null ? user_param.user : interaction.user
+    member = user_param != null ? user_param.member : interaction.member
+
+    let embed = new Discord.MessageEmbed()
+    .setAuthor(`${user.username} User Information`, user.avatarURL())
+    .setDescription(`
+        User ID : **${user.id}**
+        Username : **${user.tag}**
+        Highest Role : **${member.roles.highest}**
+        Date Joined : **${moment(member.joinedAt).fromNow()} (${moment(member.joinedAt).format('MMMM Do YYYY')})**
+        Account Created : **${moment(user.createdAt).fromNow()} (${moment(user.createdAt).format('MMMM Do YYYY')})**
+    `)
+    .setColor(member.displayHexColor)
+    .setThumbnail(user.avatarURL())
+    .setTimestamp()
+    await interaction.reply(embed)
+
+    
+
+}
+
+exports.achievement = async (client, interaction)=>{
+
+    console.log(interaction.options)
+
+    var user = interaction.options.get('user').user
+    var ach = interaction.options.get('achievement').value
+
+    let embed = new Discord.MessageEmbed()
+    .setAuthor(`${interaction.guild.name} Server Information`, interaction.guild.iconURL())
+    .setDescription(`Gave ${user} the ✨ **${ach}** ✨ achievement!`)
+    .setTimestamp()
+    await interaction.reply(embed)
+}
+
+exports.serverInfo = async (client, interaction)=>{
+
+    let embed = new Discord.MessageEmbed()
+    .setAuthor(`${interaction.guild.name} Server Information`, interaction.guild.iconURL())
+    .setDescription(`
+        Server ID : **${interaction.guild.id}**
+        Server Name : **${interaction.guild.name}**
+        Total Member Count : **${interaction.guild.memberCount} Members Total**
+        Language : **${interaction.guild.preferredLocale}**
+        Boost Tier : **Tier ${interaction.guild.premiumTier}**
+    `)
+    .setTimestamp()
+    .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
+    await interaction.reply(embed)
+
+}
 
 // Asks a question to a specified channel
 exports.askQuestion = async (client, interaction, channelID, reply)=>{
@@ -53,7 +110,7 @@ exports.beatBanger = async (client, interaction)=>{
                     value: `
                     [Change Log](https://github.com/bunfan/beat-banger-public/wiki/ChangeLog)
                     [Console Commands](https://github.com/bunfan/beat-banger-public/wiki/Console-Commands)
-                    [How To Mod](https://github.com/bunfan/beat-banger-public/wiki/How-To-Mod)
+                    [How To Mod](https://github.com/bunfan/beat-banger-modding-tool/wiki/Using-the-Modding-Tool)
                     `
                 },
                 { 
@@ -63,6 +120,7 @@ exports.beatBanger = async (client, interaction)=>{
                     `
                 },
             )
+            .setImage("https://bunfan.com/content/images/size/w2000/2021/06/x21_by_9-1.png.pagespeed.ic.JpGv2nCuvP.webp")
             .setTimestamp()
             .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
             await interaction.reply(embed)
