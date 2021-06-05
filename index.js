@@ -11,7 +11,7 @@ const commands = fs.readFileSync('./commands/commands.yaml', 'utf8')
 const cmd = require("./modules/commands.js")
 
 client.on('ready', async ()=>{
-    console.log(`${client.user.tag} is online!`) 
+    console.log(`${client.user.tag} is online.`) 
     init_commands()
 })
 
