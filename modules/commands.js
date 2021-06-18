@@ -124,18 +124,24 @@ exports.report = async (client, interaction) =>{
 
 }
 
+var canQuiz = true
+
 exports.quiz = async (client, interaction)=>{
+
+    if (canQuiz == false) return interaction.reply("Quiz already running!", {ephemeral: true})
+    canQuiz = false
 
     var head = {headers:{'User-Agent': 'BunBot/1.0 (by Komdog on e621)'}}
 
-    let max_images = 50
     let tags = [
-        'order:favcount',
-        'type:png'
+        'order:random',
+        'score:>500',
+        'type:png',
+        '-young'
     ]
-    axios.get(`https://e621.net/posts.json?limit=${max_images}&tags=${tags.join(" ")}`,head)
+    axios.get(`https://e621.net/posts.json?limit=1&tags=${tags.join(" ")}`,head)
     .then(res=>{
-        let e621 = res.data.posts[Math.floor(Math.random()*max_images)]
+        let e621 = res.data.posts[0]
         let answer = e621.tags.artist
 
         if (answer.includes('conditional_dnp')){
@@ -150,22 +156,23 @@ exports.quiz = async (client, interaction)=>{
             answer.splice(answer.indexOf('avoid_posting'), 1)
         }
         
-
-        console.log(`The artist is ${answer}`)
         let embed = new Discord.MessageEmbed()
         .setTitle('e621 Artist Quiz')
-        .setDescription('Who drew this picture? You have 10 seconds 🕐')
+        .setDescription('Who drew this picture? You have 15 seconds 🕐')
         .setImage(e621.sample.url)
         interaction.reply(embed)
-        let filter = message => {return message.content.toLowerCase() == e621.tags.artist}    
-        interaction.channel.awaitMessages(filter, {max:1, time:10000, errors:['time']})
+        let filter = message => {return e621.tags.artist.includes(message.content.toLowerCase())}    
+        interaction.channel.awaitMessages(filter, {max:1, time:15000, errors:['time']})
         .then(collected =>{
             let array = collected.map(items => {return items})
-            interaction.channel.send(`✨${array[0].author} Got it first! The answer was ${answer}✨`)
-            console.log("You answered correctly")
+            interaction.channel.send(`
+            ✨${array[0].author} Got it first! The answer was ${answer}✨ \`URL\` : https://e621.net/posts/${e621.id}`)
+            canQuiz = true
         })
         .catch(err =>{
-            interaction.channel.send(`Times Up! The artists was **${answer}**`)
+            interaction.channel.send(`
+            Times Up! The artists was **${answer}** \`URL\` : https://e621.net/posts/${e621.id}`)
+            canQuiz = true
         })
     })
 
