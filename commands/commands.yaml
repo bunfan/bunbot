@@ -6,6 +6,21 @@
     description: Enter you question here
     required: true
 
+- name: quiz
+  description: Take a quiz
+
+- name: report
+  description: Ask a question
+  options:
+  - name: user
+    type: USER
+    description: Enter the reported user
+    required: true
+  - name: report
+    type: STRING
+    description: Enter the incedent report
+    required: true
+
 - name: profile
   description: Gets information about you!
   options:
@@ -17,7 +32,15 @@
 - name: serverinfo
   description: Gets server information
 
-- name: achievement
+- name: achievements
+  description: View your achievements
+  options:
+  - name: user
+    type: USER
+    description: User to view achievements of
+    required: false
+
+- name: giveachievement
   description: Give out a reward
   options:
   - name: user

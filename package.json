@@ -13,6 +13,7 @@
     "discord.js": "github:iShibi/discord.js#fix-options",
     "dotenv": "^10.0.0",
     "moment": "^2.29.1",
+    "simple-json-db": "^1.2.3",
     "yaml": "^1.10.2"
   }
 }
