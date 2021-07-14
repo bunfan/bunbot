@@ -10,10 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "discord.js": "github:iShibi/discord.js#fix-options",
+    "discord.js": "^13.0.0-dev.98c6078.1626221017",
     "dotenv": "^10.0.0",
+    "e621": "^1.0.8",
     "moment": "^2.29.1",
-    "simple-json-db": "^1.2.3",
-    "yaml": "^1.10.2"
+    "sqlite3": "^5.0.2"
   }
 }

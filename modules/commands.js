@@ -1,200 +1,78 @@
 const Discord = require('discord.js')
-const Func = require('./functions')
 const axios = require('axios').default;
 const moment = require('moment')
 
-const JSONdb = require('simple-json-db');
-const db = new JSONdb('./ach.json');
-
-exports.profile = async (client, interaction)=>{
-
-    var user_param = interaction.options.get('user')
-
-    user = user_param != null ? user_param.user : interaction.user
-    member = user_param != null ? user_param.member : interaction.member
-
-    let embed = new Discord.MessageEmbed()
-    .setAuthor(`${user.username} User Information`, user.avatarURL())
-    .setDescription(`
-        User ID : **${user.id}**
-        Username : **${user.tag}**
-        Highest Role : **${member.roles.highest}**
-        Date Joined : **${moment(member.joinedAt).fromNow()} (${moment(member.joinedAt).format('MMMM Do YYYY')})**
-        Account Created : **${moment(user.createdAt).fromNow()} (${moment(user.createdAt).format('MMMM Do YYYY')})**
-    `)
-    .setColor(member.displayHexColor)
-    .setThumbnail(user.avatarURL())
-    .setFooter(`requested by #${interaction.user.tag}`)
-    .setTimestamp()
-    await interaction.reply(embed)
-
-}
-
-exports.giveachievement = async (client, interaction)=>{
-
-    var user = interaction.options.get('user').user
-    var ach = interaction.options.get('achievement').value
-
-    let ach_arr = db.get(`${user.id}`) ?? []
-    ach_arr.push(`${ach}`)
-
-    db.set(`${user.id}`, ach_arr);
-    db.sync();
-
-    let embed = new Discord.MessageEmbed()
-    .setAuthor(`Achievement Get!`, user.avatarURL())
-    .setDescription(`${user} got the ✨ **${ach}** ✨ achievement!`)
-    .setTimestamp()
-
-    await interaction.reply(embed)
-
-}
-
-exports.achievements = async (client, interaction)=>{
-
-    var user_param = interaction.options.get('user')
-
-    user = user_param != null ? user_param.user : interaction.user
-    member = user_param != null ? user_param.member : interaction.member
-
-    let achievement_array = db.get(`${user.id}`) ?? ["Achievementless"]
-
-    let embed = new Discord.MessageEmbed()
-    .setAuthor(`${user.username}'s Achievements`, user.avatarURL())
-    .setDescription(`${achievement_array.map(ach => `✨ **${ach}** ✨`).join("\n")}`)
-    .setTimestamp()
-    .setFooter(`requested by #${interaction.user.tag}`)
-    await interaction.reply(embed)
-}
-
-exports.serverInfo = async (client, interaction)=>{
-
-    let embed = new Discord.MessageEmbed()
-    .setAuthor(`${interaction.guild.name} Server Information`, interaction.guild.iconURL())
-    .setDescription(`
-        Server ID : **${interaction.guild.id}**
-        Server Name : **${interaction.guild.name}**
-        Total Member Count : **${interaction.guild.memberCount} Members Total**
-        Language : **${interaction.guild.preferredLocale}**
-        Boost Tier : **Tier ${interaction.guild.premiumTier}**
-    `)
-    .setTimestamp()
-    .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
-    await interaction.reply(embed)
-
-}
-
-// Asks a question to a specified channel
-exports.askQuestion = async (client, interaction, channelID, reply)=>{
-
-    let question = interaction.options.map(o => o.value)
-   
-    let title = `Question from ${interaction.user.tag}`
-    let color = interaction.member.displayHexColor
-    let thumb = interaction.user.avatarURL([{format:"png"}])
-    let description = question[0]
-    let footer = `Asked in #${interaction.channel.name}`
-    
-    let embed = Func.generateEmbed(client, title, color, thumb, description, footer)
-   
-    client.channels.resolve(channelID).send(embed)
-    await interaction.reply(reply, {ephemeral: true})
-
-}
 
 exports.report = async (client, interaction) =>{
 
     let report_array = interaction.options.map(o => o.value)
-   
-    let title = `Report from ${interaction.user.tag}`
-    let color = '#00f'
-    let description = report_array[1]
-    let footer = `reported in #${interaction.channel.name}`
     
     let embed = new Discord.MessageEmbed()
-    .setTitle(title)
-    .setColor(color)
-    .addField('**Reported User**', `<@${report_array[0]}>`)
-    .addField('**Reason:**', description)
-    .setFooter(footer)
+    .setAuthor(`Report from ${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
+    .setColor('#00f')
+    // .setThumbnail(report_array[0].avatarURL([{format:"png"}]))
+    .setDescription(`
+    The user <@${report_array[0]}> has been reported for the following reason : 
+    ----------------
+    ${report_array[1]}
+    `)
+    .setFooter(`Reported in #${interaction.channel.name}`)
+    .setTimestamp()
    
     let mod_guild = client.guilds.resolve('843703074996486184')
-    mod_guild.channels.resolve('852798849087963156').send(embed)
-    await interaction.reply(`Reported user <@${report_array[0]}>. Thanks for submitting!`, {ephemeral: true})
+    mod_guild.channels.resolve('852798849087963156').send({ content: "<@&852373611066818560>",embeds: [embed] })
+    await interaction.reply({content:`Reported user <@${report_array[0]}>. Thanks for submitting!`, ephemeral: true})
 
 }
 
-var canQuiz = true
+exports.links = async (client, interaction)=>{
 
-exports.quiz = async (client, interaction)=>{
+    let embed = new Discord.MessageEmbed()
+    .setTitle("Helpful Links!")
+    .setDescription("Helpful link directory")
 
-    if (canQuiz == false) return interaction.reply("Quiz already running!", {ephemeral: true})
-    canQuiz = false
+    const row = new Discord.MessageActionRow()
+    .addComponents(
+        new Discord.MessageButton()
+            .setLabel('Download Beat Banger')
+            .setEmoji('🎮')
+            .setStyle('LINK')
+            .setURL('https://bunfan-games.itch.io/beat-banger'),
+        new Discord.MessageButton()
+            .setLabel('Wiki')
+            .setEmoji('🔖')
+            .setStyle('LINK')
+            .setURL('https://github.com/bunfan/beat-banger-public/wiki')
+    );
 
-    var head = {headers:{'User-Agent': 'BunBot/1.0 (by Komdog on e621)'}}
-
-    let tags = [
-        'order:random',
-        'score:>500',
-        'type:png',
-        '-young'
-    ]
-    axios.get(`https://e621.net/posts.json?limit=1&tags=${tags.join(" ")}`,head)
-    .then(res=>{
-        let e621 = res.data.posts[0]
-        let answer = e621.tags.artist
-
-        if (answer.includes('conditional_dnp')){
-            answer.splice(answer.indexOf('conditional_dnp'), 1)
-        }
-
-        if (answer.includes('sound_warning')){
-            answer.splice(answer.indexOf('sound_warning'), 1)
-        }
-        
-        if (answer.includes('avoid_posting')){
-            answer.splice(answer.indexOf('avoid_posting'), 1)
-        }
-        
-        let embed = new Discord.MessageEmbed()
-        .setTitle('e621 Artist Quiz')
-        .setDescription('Who drew this picture? You have 15 seconds 🕐')
-        .setImage(e621.sample.url)
-        interaction.reply(embed)
-        let filter = message => {return e621.tags.artist.includes(message.content.toLowerCase())}    
-        interaction.channel.awaitMessages(filter, {max:1, time:15000, errors:['time']})
-        .then(collected =>{
-            let array = collected.map(items => {return items})
-            interaction.channel.send(`
-            ✨${array[0].author} Got it first! The answer was ${answer}✨ \`URL\` : https://e621.net/posts/${e621.id}`)
-            canQuiz = true
-        })
-        .catch(err =>{
-            interaction.channel.send(`
-            Times Up! The artists was **${answer}** \`URL\` : https://e621.net/posts/${e621.id}`)
-            canQuiz = true
-        })
-    })
+    await interaction.reply({ embeds:[embed], components: [row] })
 
 }
+
 
 exports.beatBanger = async (client, interaction)=>{
 
     interaction.options.map(async choice =>{
 
-        if(choice.value == "version")
-        {
-            axios.get('https://firestore.googleapis.com/v1/projects/bunfan-db/databases/(default)/documents/beat-banger/info')
-            .then(async res =>{
-                let version = res.data.fields.version.stringValue
-                let embed = new Discord.MessageEmbed()
-                .setDescription(`Beat Banger is currently on version \`${version}\``)
-                await interaction.reply(embed)
-            })
-        }
+        if(choice.value == "help") return help()
+        if(choice.value == "version") return version()
 
-        if(choice.value == "help")
-        {
+    });
+
+    async function version() {
+    
+        axios.get('https://firestore.googleapis.com/v1/projects/bunfan-db/databases/(default)/documents/beat-banger/info')
+        .then(async res =>{
+            let version = res.data.fields.version.stringValue
+            let embed = new Discord.MessageEmbed()
+            .setDescription(`Beat Banger is currently on version \`${version}\``)
+            await interaction.reply({ embeds: [embed] })
+        })
+
+    }
+
+    async function help(){
+
             let embed = new Discord.MessageEmbed()
             .setAuthor("Beat Banger Help", "https://img.itch.zone/aW1nLzYwODc3MjAucG5n/x150/wWDx%2BC.png")
             .setDescription("For all your Beat Banger needs")
@@ -218,17 +96,16 @@ exports.beatBanger = async (client, interaction)=>{
                     name: 'Github:', 
                     value: `
                     [Report A Bug](https://github.com/bunfan/beat-banger-public/issues/new/choose)
+                    [Roadmap](https://github.com/bunfan/beat-banger-public/projects/3)
                     `
                 },
             )
             .setImage("https://bunfan.com/content/images/size/w2000/2021/06/x21_by_9-1.png.pagespeed.ic.JpGv2nCuvP.webp")
             .setTimestamp()
             .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
-            await interaction.reply(embed)
+            await interaction.reply({ embeds: [embed] })
         }
-        
-    })
-   
+
 }
 
 
