@@ -6,21 +6,74 @@ exports.load = client => {
 
 exports.data = [
 
-    // Bank Commands
+    // Bank Command
     {
         name: 'bank',
         description: 'View Bank Data',
+    },
+    // Role Command
+    {
+        name: 'role',
+        description: 'Manage your roles!',
+        options: [
+            {
+                name: 'add',
+                description: "Give yourself some roles",
+                type: 'SUB_COMMAND',
+            },
+            {
+                name: 'remove',
+                description: "Remove your roles",
+                type: 'SUB_COMMAND',
+            },
+        ]
+    },
+    // Roll the dice
+    {
+        name: "guessnumber",
+        description: "Guess the number I'm thinking of",
+        options: [
+            {
+                name: 'prizeamount',
+                type: 'INTEGER',
+                description: 'Highest possible number',
+                required: false,
+            },
+        ],
     },
     // Quiz commands
     {
         name: 'quiz',
         description: 'Take a sexy quiz',
+        options: [
+            {
+                name: 'category',
+                type: 'STRING',
+                description: 'Query category',
+                required: true,
+                choices: [
+                    {
+                        name: 'All',
+                        value: '',
+                    },
+                    {
+                        name: 'Straight',
+                        value: 'male/female',
+                    },
+                    {
+                        name: 'Gay',
+                        value: 'male/male',
+                    },
+                    {
+                        name: 'Futa',
+                        value: 'gynomorph',
+                    },
+                
+                ]
+            }
+
+        ]
     },
-    // Server information
-    // {
-    //     name: 'serverinfo',
-    //     description: 'Gets server information'
-    // },
     // Coin flip
     {
         name: 'coinflip',
@@ -106,7 +159,13 @@ exports.data = [
                 name:'user',
                 type:'USER',
                 description:'User to pay',
-                require: true
+                required: true
+            },
+            {
+                name:'amount',
+                type:'INTEGER',
+                description:'amount to pay',
+                required: true
             },
         ],
     },

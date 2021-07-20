@@ -28,9 +28,12 @@ exports.change_db_name = (db, message, id, name) =>{
 
 }
 
-exports.drop = (interaction, db)=> {
-    db.run("DELETE from Users WHERE id=?", '125687298485518336')
-    return interaction.reply({content:`ran`, ephemeral: true})
+exports.drop = (db, message, id)=> {
+    db.run("DELETE from Users WHERE id=?", [id])
+
+    let embed = new Discord.MessageEmbed()
+    .setDescription(`Removed user ${id} from database`)
+    return message.channel.send({embeds: [embed]})
 }
 
 exports.set = (db, message, id, amount)=> {
@@ -83,8 +86,8 @@ exports.pay = async (interaction, db)=>{
 
     db.get(`SELECT * FROM Users WHERE id='${interaction.user.id}'`, (err,row)=>{
 
-        if (err) replyError();
-        if (!row) return noAccountFound()
+        if (err) replyError(interaction);
+        if (!row) return noAccountFound(interaction)
 
         giverBalance = row.money
 
@@ -94,7 +97,7 @@ exports.pay = async (interaction, db)=>{
 
         db.get(`SELECT * FROM Users WHERE id='${recieveingUser.id}'`, (err,row)=>{
 
-            if (err) replyError();
+            if (err) replyError(interaction);
     
             recieverBalance = row.money
     
@@ -112,117 +115,125 @@ exports.pay = async (interaction, db)=>{
  
 }
 
-exports.bank = (interaction, db, cmd)=>{
+exports.bank = async (interaction, db)=>{
 
-    if (cmd == "init") return showButtons()
-    if (cmd == "account") return viewAccount()
-    if (cmd == "open") return openAccount()
-    if (cmd == "leaderboard") return leaderboard()
+    if (interaction.channel.id != '865489232444653578') return interaction.reply({content:"Wrong channel! Go to <#865489232444653578>", ephemeral: true})
 
-    async function showButtons() {
+    let embed = new Discord.MessageEmbed()
+        .setTitle("Welcome to the BunFan Bank!")
+        .setDescription("What would you like to do?")
+
+    const row = new Discord.MessageActionRow()
+    .addComponents(
+        new Discord.MessageButton()
+            .setCustomId('account')
+            .setLabel('View Balance')
+            .setEmoji('💰')
+            .setStyle('PRIMARY'),
+        new Discord.MessageButton()
+            .setCustomId('open')
+            .setLabel('Create Account')
+            .setEmoji('📖')
+            .setStyle('PRIMARY'),
+        new Discord.MessageButton()
+            .setCustomId('leaderboard')
+            .setLabel('View Leaderboard')
+            .setEmoji('📋')
+            .setStyle('PRIMARY'),
+    );
+
+    await interaction.reply({embeds:[embed], components: [row] })
+ 
+}
+
+exports.openAccount = (interaction, db) =>{
+    db.get(`SELECT * FROM Users WHERE id='${interaction.user.id}'`, (err,row)=>{
+
+        if (err) return replyError(interaction)
+        if (row) return interaction.reply({ content:`You already have an account!`, ephemeral: true});
+
+        // Create Account
+        db.run(`INSERT INTO Users VALUES (?,?,?)`, [interaction.user.id,interaction.user.username,100]);
 
         let embed = new Discord.MessageEmbed()
-            .setTitle("Welcome to the BunFan Bank!")
-            .setDescription("What would you like to do?")
+        .setDescription(`Congratz ${interaction.user}! You're now got a BunFan Bank Account!`)
+        return interaction.reply({ embeds: [embed] });
 
-        const row = new Discord.MessageActionRow()
-        .addComponents(
-            new Discord.MessageButton()
-                .setCustomId('account')
-                .setLabel('View Balance')
-                .setEmoji('💰')
-                .setStyle('PRIMARY'),
-            new Discord.MessageButton()
-                .setCustomId('open')
-                .setLabel('Create Account')
-                .setEmoji('📖')
-                .setStyle('PRIMARY'),
-            new Discord.MessageButton()
-                .setCustomId('leaderboard')
-                .setLabel('View Leaderboard')
-                .setEmoji('📋')
-                .setStyle('PRIMARY'),
-        );
-    await interaction.reply({ content: 'Choose an option!', embeds:[embed], components: [row] })
+    });
+}
 
-    }
+exports.checkAccount = (interaction, db) =>{
+    db.get(`SELECT * FROM Users WHERE id='${interaction.user.id}'`, (err,row)=>{
 
-    function openAccount() {
-        db.get(`SELECT * FROM Users WHERE id='${interaction.user.id}'`, (err,row)=>{
+        if (err) return replyError(interaction)
+        if (row) return 
 
-            if (err) return replyError()
-            if (row) return interaction.reply({ content:`You already have an account!`, ephemeral: true});
+        // Create Account
+        db.run(`INSERT INTO Users VALUES (?,?,?)`, [interaction.user.id,interaction.user.username,100]);
 
-            // Create Account
-            db.run(`INSERT INTO Users VALUES (?,?,?)`, [interaction.user.id,interaction.user.username,100]);
+        let embed = new Discord.MessageEmbed()
+        .setDescription(`Congratz ${interaction.user}! You're now got a BunFan Bank Account!`)
+        .setFooter("Go to #bank and type /bank to view your balance")
+        return interaction.channel.send({ embeds: [embed] });
 
-            let embed = new Discord.MessageEmbed()
-            .setDescription(`Congratz ${interaction.user}! You're now got a BunFan Bank Account!`)
-            return interaction.reply({ embeds: [embed] });
+    });
+}
 
-        });
-    }
+exports.viewAccount = (interaction, db) =>{
+    db.get(`SELECT * FROM Users WHERE id='${interaction.user.id}'`, (err,row)=>{
 
-    function viewAccount() {
-        db.get(`SELECT * FROM Users WHERE id='${interaction.user.id}'`, (err,row)=>{
+        if (err) return replyError(interaction)
+        if (!row) return noAccountFound(interaction)
 
-            if (err) return replyError()
-            if (!row) return noAccountFound()
+        let embed = new Discord.MessageEmbed()
+        .setAuthor(`${interaction.user.username}'s BunFan Bank Account`, interaction.user.avatarURL())
+        .setDescription(`
+        BunBucks 💰 : ${row.money}
+        `)
+        .setTimestamp()
 
-            let embed = new Discord.MessageEmbed()
-            .setAuthor(`${interaction.user.username}'s BunFan Bank Account`, interaction.user.avatarURL())
-            .setDescription(`
-            BunBucks 💰 : ${row.money}
-            `)
-            .setTimestamp()
+        return interaction.reply({ embeds: [embed] })
 
-            return interaction.reply({ embeds: [embed] })
+    })  
+}
 
-        })  
-    }
+exports.leaderboard = (interaction, db) =>{
 
-    function leaderboard() {
-
-        var arr = []
-        var i = 1
-        db.each(`SELECT * FROM Users ORDER BY money DESC`, (err,row)=>{
-
-            
-            if (arr.length >= 20) return
-            // if (row.id != '125687298485518336'){
-            arr.push(`\`${i}\` : ${row.name} : ${row.money}`)
-            i++
-            // }
-            
-
-        }, ()=>{
-
-            let embed = new Discord.MessageEmbed()
-            .setTitle(`👑  Rich People  👑`)
-            .setDescription(arr.join("\n"))
-            .setThumbnail(interaction.guild.iconURL())
-            .setTimestamp()
-
-            interaction.reply({ embeds: [embed] })
-            return 
-        })
+    var arr = []
+    var i = 1
+    db.each(`SELECT * FROM Users ORDER BY money DESC`, (err,row)=>{
 
         
-    }
+        if (arr.length >= 20) return
+        // if (row.id != '125687298485518336'){
+        arr.push(`\`${i}\` : ${row.name} : ${row.money}`)
+        i++
+        // }
+        
 
+    }, ()=>{
 
-    function replyError() {
-        interaction.reply(`Something went wrong!`)
-    }
-
-
-    function noAccountFound() {
         let embed = new Discord.MessageEmbed()
-        .setDescription(`**No account found for ${interaction.user.username}**`)
-        return interaction.reply({ embeds: [embed] });
-    }
+        .setTitle(`👑  Rich People  👑`)
+        .setDescription(arr.join("\n"))
+        .setThumbnail(interaction.guild.iconURL())
+        .setTimestamp()
 
+        interaction.reply({ embeds: [embed] })
+        return 
+    })
 
     
- 
+}
+
+
+function replyError(interaction) {
+    interaction.reply(`Something went wrong!`)
+}
+
+
+function noAccountFound(interaction) {
+    let embed = new Discord.MessageEmbed()
+    .setDescription(`**No account found for ${interaction.user.username}**`)
+    return interaction.reply({ embeds: [embed] });
 }

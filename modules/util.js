@@ -60,3 +60,5 @@ exports.serverInfo = async (interaction)=>{
     await interaction.reply({ embeds: [embed] })
 
 }
+
+
