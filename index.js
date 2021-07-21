@@ -32,6 +32,7 @@ client.on('messageCreate', async message =>{
     if (cmd == "$setmoney") return bank.set(db, message, cmd_array[1], cmd_array[2])
     if (cmd == "$dropuser") return bank.drop(db, message, cmd_array[1])
     if (cmd == "$list") return bank.list(db, message)
+    
 
 
 })
