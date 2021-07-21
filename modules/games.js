@@ -38,8 +38,23 @@ exports.quiz = async (interaction, db)=>{
     ]
 
     // Fetch Post
-    let post = await e.getPosts(tags, 1)
-    let answer = post[0].tags.artist.map(a => a.split("_").join(" ").replace(" (artist)", ""))
+
+    var post
+    var answer
+
+    try {
+        post = await e.getPosts(tags, 1)
+    } catch (e) {
+        console.error(e)
+        return interaction.reply({content:"e621 is currently down!", ephemeral:true})
+    }
+    
+    try {
+        answer = post[0].tags.artist.map(a => a.split("_").join(" ").replace(" (artist)", ""))
+    } catch (e) {   
+        console.error(e)
+        return interaction.reply({content:"Failed to query e621", ephemeral: true})
+    }
 
     // Remove unwanted tags
     if (answer.includes('conditional dnp')){answer.splice(answer.indexOf('conditional dnp'), 1)}
