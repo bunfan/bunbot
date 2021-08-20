@@ -11,6 +11,19 @@ exports.data = [
         name: 'bank',
         description: 'View Bank Data',
     },
+    // Bank Command
+    // {
+    //     name: 'top621',
+    //     description: 'Gets the top post by favcount of any tag on e621.',
+    //     options: [
+    //         {
+    //             name: 'tag',
+    //             type: 'STRING',
+    //             description: 'The tag to search',
+    //             required: true,
+    //         }
+    //     ]
+    // },
     // Role Command
     {
         name: 'role',
@@ -29,51 +42,51 @@ exports.data = [
         ]
     },
     // Roll the dice
-    {
-        name: "guessnumber",
-        description: "Guess the number I'm thinking of",
-        options: [
-            {
-                name: 'prizeamount',
-                type: 'INTEGER',
-                description: 'Highest possible number',
-                required: false,
-            },
-        ],
-    },
+    // {
+    //     name: "guessnumber",
+    //     description: "Guess the number I'm thinking of",
+    //     options: [
+    //         {
+    //             name: 'prizeamount',
+    //             type: 'INTEGER',
+    //             description: 'Highest possible number',
+    //             required: false,
+    //         },
+    //     ],
+    // },
     // Quiz commands
-    {
-        name: 'quiz',
-        description: 'Take a sexy quiz',
-        options: [
-            {
-                name: 'category',
-                type: 'STRING',
-                description: 'Query category',
-                required: true,
-                choices: [
-                    {
-                        name: 'All',
-                        value: '',
-                    },
-                    {
-                        name: 'Straight',
-                        value: 'male/female',
-                    },
-                    {
-                        name: 'Gay',
-                        value: 'male/male',
-                    },
-                    {
-                        name: 'Futa',
-                        value: 'gynomorph',
-                    },
+    // {
+    //     name: 'quiz',
+    //     description: 'Take a sexy quiz',
+    //     options: [
+    //         {
+    //             name: 'category',
+    //             type: 'STRING',
+    //             description: 'Query category',
+    //             required: true,
+    //             choices: [
+    //                 {
+    //                     name: 'All',
+    //                     value: '',
+    //                 },
+    //                 {
+    //                     name: 'Straight',
+    //                     value: 'male/female',
+    //                 },
+    //                 {
+    //                     name: 'Gay',
+    //                     value: 'male/male',
+    //                 },
+    //                 {
+    //                     name: 'Futa',
+    //                     value: 'gynomorph',
+    //                 },
                 
-                ]
-            }
+    //             ]
+    //         }
 
-        ]
-    },
+    //     ]
+    // },
     // Coin flip
     {
         name: 'coinflip',

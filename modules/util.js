@@ -1,5 +1,7 @@
 const Discord = require('discord.js')
 const moment = require('moment')
+const e621 = require('e621')
+const e = new e621("komdog", process.env.E621)
 
 exports.profile = async (interaction)=>{
 
@@ -45,7 +47,12 @@ exports.serverInfo = async (interaction)=>{
     - Total Boosts : ${interaction.guild.premiumSubscriptionCount}
     - Boost Tier : ${interaction.guild.premiumTier}
 
+    **Enabled Features**
+
+    ${interaction.guild.features.join("\n")}
+
     **Emojis**
+    
     ${interaction.guild.emojis.cache.map(e => e).join(" ")}
 
     **Other information**
@@ -58,6 +65,32 @@ exports.serverInfo = async (interaction)=>{
     .setTimestamp()
     .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
     await interaction.reply({ embeds: [embed] })
+
+}
+
+exports.top621 = async interaction =>{
+
+    var tag = interaction.options.get('tag').value;
+
+    var query = await e.getPosts([tag, 'order:favcount'],1)
+    if (query.length < 1) return interaction.reply({content: `Could not query ${tag}`, ephemeral: true})
+    var post = query[0]
+    var url = `https://e621.net/posts/${post.id}`
+
+    let embed = new Discord.MessageEmbed()
+        .setTitle(`Top post for ${tag}`)
+        .setDescription(`
+        ID : ${post.id}
+        Type : ${post.file.ext}
+        Score : ${post.score.total}
+        Favcount : ${post.fav_count}
+        Rating : ${post.rating}
+        `)
+        .setThumbnail(post.preview.url)
+        .setURL(url)
+
+        interaction.channel.send({embeds: [embed]})
+        interaction.reply({content: url})
 
 }
 
