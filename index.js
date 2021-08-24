@@ -3,8 +3,8 @@ var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('./database/users.db');
 const { exec } = require("child_process");
 
-const Discord = require('discord.js');
-const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
+const { Client, Intents } = require('discord.js');
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES] });
 
 const commands = require('./commands/command_data')
 
@@ -14,6 +14,15 @@ const games = require("./modules/games")
 const bank = require("./modules/bank")
 const roles = require("./modules/roles")
 
+
+// Update member count
+function updateCount() {
+     // Sets channel to show total server member count
+     var bunfan_server = client.guilds.resolve('789252395015733248')
+     var member_channel = bunfan_server.channels.resolve('872999670488629270')
+     member_channel.setName(`Member Count : ${bunfan_server.memberCount}`)
+     console.log(`Channel updated to ${bunfan_server.memberCount}`)
+}
 
 // When the bot starts up
 client.on('ready', async ()=>{
@@ -28,16 +37,17 @@ client.on('ready', async ()=>{
     // Load all commands from JSON file
     commands.load(client)
 
-    // Sets channel to show total server member count
-    var bunfan_server = client.guilds.resolve('789252395015733248')
-    bunfan_server.channels.resolve('872999670488629270').setName(`Member Count : ${bunfan_server.memberCount}`)
+    // Update
+    updateCount()
     
 })
 
-client.on('guildMemberAdd', async (member)=>{
-    // Sets channel to show total server member count
-    var bunfan_server = client.guilds.resolve('789252395015733248')
-    bunfan_server.channels.resolve('872999670488629270').setName(`Member Count : ${bunfan_server.memberCount}`)
+client.on('guildMemberAdd', async member =>{
+    updateCount()
+})
+
+client.on('guildMemberRemove', async member =>{
+    updateCount()
 })
 
 
@@ -79,7 +89,7 @@ client.on('interactionCreate', async interaction =>{
         if(interaction.customId == 'leaderboard') return bank.leaderboard(interaction, db)
 
         // Games
-        if(interaction.customId == 'quiz') return games.quiz(interaction, db)
+        // if(interaction.customId == 'quiz') return games.quiz(interaction, db)
 
     }
 
