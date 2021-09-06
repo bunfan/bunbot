@@ -2,10 +2,11 @@ const Discord = require('discord.js')
 const moment = require('moment')
 const e621 = require('e621')
 const e = new e621("komdog", process.env.E621)
+const fetch = require('node-fetch')
 
 exports.profile = async (interaction)=>{
 
-    var user_param = interaction.options.get('user').options.get('user')
+    var user_param = interaction.options.get('user')
 
     user = user_param != null ? user_param.user : interaction.user
     member = user_param != null ? user_param.member : interaction.member
@@ -93,5 +94,7 @@ exports.top621 = async interaction =>{
         interaction.reply({content: url})
 
 }
+
+
 
 

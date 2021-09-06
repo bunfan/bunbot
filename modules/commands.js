@@ -5,23 +5,24 @@ const moment = require('moment')
 
 exports.report = async (client, interaction) =>{
 
-    let report_array = interaction.options.map(o => o.value)
+    let user = interaction.options.get('user').value
+    let report = interaction.options.get('report').value
     
     let embed = new Discord.MessageEmbed()
     .setAuthor(`Report from ${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
     .setColor('#00f')
-    // .setThumbnail(report_array[0].avatarURL([{format:"png"}]))
+    // .setThumbnail(user.avatarURL([{format:"png"}]))
     .setDescription(`
-    The user <@${report_array[0]}> has been reported for the following reason : 
+    The user <@${user}> has been reported for the following reason : 
     ----------------
-    ${report_array[1]}
+    ${report}
     `)
     .setFooter(`Reported in #${interaction.channel.name}`)
     .setTimestamp()
    
     let mod_guild = client.guilds.resolve('843703074996486184')
     mod_guild.channels.resolve('852798849087963156').send({ content: "<@&852373611066818560>",embeds: [embed] })
-    await interaction.reply({content:`Reported user <@${report_array[0]}>. Thanks for submitting!`, ephemeral: true})
+    await interaction.reply({content:`Reported user <@${user}>. Thanks for submitting!`, ephemeral: true})
 
 }
 
