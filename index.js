@@ -11,7 +11,6 @@ const commands = require('./commands/command_data')
 const cmds = require("./modules/commands")
 const util = require("./modules/util")
 const games = require("./modules/games")
-const bank = require("./modules/bank")
 const roles = require("./modules/roles")
 
 
@@ -59,10 +58,6 @@ client.on('messageCreate', async message =>{
     let cmd = cmd_array[0].toLowerCase()
 
     if (cmd == "$ping") return message.channel.send(`Pong! (${client.ws.ping}ms)`)
-    if (cmd == "$changename") return bank.change_db_name(db, message, cmd_array[1], cmd_array[2])
-    if (cmd == "$setmoney") return bank.set(db, message, cmd_array[1], cmd_array[2])
-    if (cmd == "$dropuser") return bank.drop(db, message, cmd_array[1])
-    if (cmd == "$list") return bank.list(db, message)
     if (cmd == "$getserver") return util.get_server(client, message, cmd_array[1])
     if (cmd == "$todo") return cmds.todo(message)
 
@@ -82,18 +77,18 @@ client.on('interactionCreate', async interaction =>{
 
     }
 
-    // Buttons
-    if(interaction.isMessageComponent()){
+    // // Buttons
+    // if(interaction.isMessageComponent()){
 
-        // Bank Button Commands
-        if(interaction.customId == 'account') return bank.viewAccount(interaction, db)
-        if(interaction.customId == 'open') return bank.openAccount(interaction, db)
-        if(interaction.customId == 'leaderboard') return bank.leaderboard(interaction, db)
+    //     // Bank Button Commands
+    //     if(interaction.customId == 'account') return bank.viewAccount(interaction, db)
+    //     if(interaction.customId == 'open') return bank.openAccount(interaction, db)
+    //     if(interaction.customId == 'leaderboard') return bank.leaderboard(interaction, db)
 
-        // Games
-        // if(interaction.customId == 'quiz') return games.quiz(interaction, db)
+    //     // Games
+    //     // if(interaction.customId == 'quiz') return games.quiz(interaction, db)
 
-    }
+    // }
 
 
     // Slash Commands
@@ -129,8 +124,8 @@ client.on('interactionCreate', async interaction =>{
         if(interaction.commandName == 'coinflip') return games.coinflip(interaction)
 
         // Bank Commands
-        if(interaction.commandName == 'bank') return bank.bank(interaction, db)
-        if(interaction.commandName == 'pay') return bank.pay(interaction, db)
+        // if(interaction.commandName == 'bank') return bank.bank(interaction, db)
+        // if(interaction.commandName == 'pay') return bank.pay(interaction, db)
     }
 
     
