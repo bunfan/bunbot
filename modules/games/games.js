@@ -7,7 +7,7 @@ const e = new e621("komdog", process.env.E621)
 
 const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 
-const bank = require('./bank.js')
+// const bank = require('./bank.js')
 
 var category = ''
 var canQuiz = true

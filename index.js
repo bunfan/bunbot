@@ -8,10 +8,11 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 
 const commands = require('./commands/command_data')
 
-const cmds = require("./modules/commands")
-const util = require("./modules/util")
-const games = require("./modules/games")
-const roles = require("./modules/roles")
+const cmds = require("./modules/commands/commands")
+const responses = require("./modules/responses/responses")
+const util = require("./modules/util/util")
+const games = require("./modules/games/games")
+const roles = require("./modules/roles/roles")
 
 
 // Update member count
@@ -51,6 +52,10 @@ client.on('guildMemberRemove', async member =>{
 
 
 client.on('messageCreate', async message =>{
+
+    if (message.author.bot) return;
+
+    responses.check(message)
 
     if (message.author.id != 125687298485518336) return
 
