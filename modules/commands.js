@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
 const axios = require('axios').default;
+const { request } = require("@octokit/core");
 const moment = require('moment')
+
 
 
 exports.report = async (client, interaction) =>{
@@ -106,6 +108,33 @@ exports.beatBanger = async (client, interaction)=>{
             .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
             await interaction.reply({ embeds: [embed] })
         }
+
+}
+
+//Lists all Beat Banger Github issues.
+exports.todo = async message => {
+
+    let res = await request('GET /orgs/{org}/projects', {
+        org: 'bunfan',
+        mediaType: {
+          previews: [
+            'inertia'
+          ]
+        }
+      })
+
+    console.log(res.data);
+
+    // let issue = res.data
+    // let label = (issue.labels.length > 0 ? issue.labels[0].name : "No Label")
+
+    // let embed = new Discord.MessageEmbed()
+    // .setTitle(`Issue #20 [${label}]`)
+    // .setAuthor(issue.title)
+    // .setDescription(issue.body)
+    // .setURL(issue.html_url)
+    // .setFooter(`Posted by ${issue.user.login}`)
+    // message.channel.send({embeds: [embed]})
 
 }
 
