@@ -1,6 +1,6 @@
 require('dotenv').config()
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./database/users.db');
+// var sqlite3 = require('sqlite3').verbose();
+// var db = new sqlite3.Database('./database/users.db');
 const { exec } = require("child_process");
 
 const { Client, Intents } = require('discord.js');
@@ -32,7 +32,7 @@ client.on('ready', async ()=>{
     console.log(`Running on process ${process.pid}`) 
 
     // Set database journal mode
-    db.run(`PRAGMA journal_mode=WAL;`)
+    // db.run(`PRAGMA journal_mode=WAL;`)
 
     // Load all commands from JSON file
     commands.load(client)
