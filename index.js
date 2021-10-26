@@ -8,7 +8,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 
 const commands = require('./commands/command_data')
 
-const cmd = require("./modules/commands")
+const cmds = require("./modules/commands")
 const util = require("./modules/util")
 const games = require("./modules/games")
 const bank = require("./modules/bank")
@@ -63,6 +63,8 @@ client.on('messageCreate', async message =>{
     if (cmd == "$setmoney") return bank.set(db, message, cmd_array[1], cmd_array[2])
     if (cmd == "$dropuser") return bank.drop(db, message, cmd_array[1])
     if (cmd == "$list") return bank.list(db, message)
+    if (cmd == "$getserver") return util.get_server(client, message, cmd_array[1])
+    if (cmd == "$todo") return cmds.todo(message)
 
 })
 
@@ -103,7 +105,7 @@ client.on('interactionCreate', async interaction =>{
         // if(interaction.channel.id != "820093352862416926" && interaction.user.id != "125687298485518336") return interaction.reply({content:`Bot command don't work in the channel. Please go to <#820093352862416926>`, ephemeral: true});
         // if(interaction.commandName == 'beatbanger') return cmd.beatBanger(client, interaction)
         
-        if(interaction.commandName == 'report') return cmd.report(client, interaction)
+        if(interaction.commandName == 'report') return cmds.report(client, interaction)
 
         // Utility
         if(interaction.commandName == 'info') {
