@@ -34,5 +34,5 @@ async function help_mods(message){
 }
 
 async function help_mobile(message){
-    await message.reply({ content: "There's a goal on patreon regarding the creation of a mobile verseion of beat banger https://www.patreon.com/komdog/membership" })
+    await message.reply({ content: "There's a pledge milestone on patreon regarding the creation Beat Banger mobile https://www.patreon.com/komdog/membership" })
 }
