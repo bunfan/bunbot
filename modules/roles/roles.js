@@ -48,6 +48,12 @@ exports.createMenu = (interaction, id) => {
             description: "Be notified when the gamers squad up!",
             emoji: '🎮',
         },
+        {
+            label: "Server Events",
+            value: "897709016510234684",
+            description: "Be notified when server event are happening",
+            emoji: '🎟️',
+        },
     ]
 
     let description = (id == "add_role" ? "Choose roles to add" : "Choose roles to remove")
