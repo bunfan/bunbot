@@ -1,7 +1,7 @@
 require('dotenv').config()
 // var sqlite3 = require('sqlite3').verbose();
 // var db = new sqlite3.Database('./database/users.db');
-const { exec } = require("child_process");
+// const { exec } = require("child_process");
 
 const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES] });

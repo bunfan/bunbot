@@ -1,4 +1,4 @@
 {
     "mods": [["where", "how"], ["mods", "mod"]],
-    "mobile": [["mobile", "android", "iphone", "ios"], ["version", "port", "game", "beat", "banger", "bb"]]
+    "mobile": [["mobile", "android", "iphone", "ios","phone"], ["version", "port", "game", "beat", "banger", "bb"]]
 }
