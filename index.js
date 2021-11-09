@@ -65,6 +65,8 @@ client.on('messageCreate', async message =>{
     if (cmd == "$ping") return message.channel.send(`Pong! (${client.ws.ping}ms)`)
     if (cmd == "$getserver") return util.get_server(client, message, cmd_array[1])
     if (cmd == "$todo") return cmds.todo(message)
+    if (cmd == "$sayhello") return console.log("hello world! :D")
+    if (cmd == "$kompic") return message.reply("https://static1.e621.net/data/sample/7e/12/7e12a8cc18a75149277a2baa426a6668.jpg")
 
 })
 
