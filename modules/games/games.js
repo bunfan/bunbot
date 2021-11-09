@@ -110,10 +110,14 @@ exports.quiz = async (interaction, db)=>{
 
 exports.roll = async (interaction)=>{
 
-    let option = interaction.options.map(option => {return option})
-    let max = option.length > 0 ? option[0].value : 6
+    // Get value from command
+    let value = interaction.options.getInteger('maximum')
+    let max = (value < 1) ? 6 : value
+
+    // Generates random number using max
     let rng = Math.ceil(Math.random()*max)
 
+    // Sends messages
     let embed = new Discord.MessageEmbed()
     .setDescription(`You rolled a **${rng}** 🎲 (1d${max})`)
     interaction.reply({embeds: [embed]})

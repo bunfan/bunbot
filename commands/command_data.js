@@ -5,18 +5,17 @@ exports.load = client => {
 }
 
 exports.data = [
-
-    // Bank Command
     {
-        name: 'bank',
-        description: 'View Bank Data',
+        name: 'bb',
+        description: 'All Beat Banger Related Commands',
+        options: [
+            {
+                name: 'mods',
+                description: "Give yourself some roles",
+                type: 'SUB_COMMAND'
+            }
+        ]
     },
-    // Board Member Command
-    // {
-    //     name: 'board',
-    //     description: 'View current board members',
-    // },
-    // Role Command
     {
         name: 'role',
         description: 'Manage your roles!',
