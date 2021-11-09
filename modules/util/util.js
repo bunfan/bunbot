@@ -115,6 +115,20 @@ exports.get_server = async (client, message, id)=>{
 
 }
 
+exports.bb = async (interaction) => {
+
+    // return console.log(interaction.options.getSubcommand())
+
+    if (interaction.options.getSubcommand() == 'mods')
+    {
+        let embed = new Discord.MessageEmbed()
+        .setTitle("✨ Click here to view all fan-made mods! ✨")
+        .setURL("https://mega.nz/folder/Vk0CVSIQ#KHCffROl-7_3d71QxBNoTQ")
+        interaction.reply({embeds: [embed], ephemeral: true})
+    } 
+
+}
+
 
 
 

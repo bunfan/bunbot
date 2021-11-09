@@ -82,20 +82,6 @@ client.on('interactionCreate', async interaction =>{
 
     }
 
-    // // Buttons
-    // if(interaction.isMessageComponent()){
-
-    //     // Bank Button Commands
-    //     if(interaction.customId == 'account') return bank.viewAccount(interaction, db)
-    //     if(interaction.customId == 'open') return bank.openAccount(interaction, db)
-    //     if(interaction.customId == 'leaderboard') return bank.leaderboard(interaction, db)
-
-    //     // Games
-    //     // if(interaction.customId == 'quiz') return games.quiz(interaction, db)
-
-    // }
-
-
     // Slash Commands
     if(interaction.isCommand()){
 
@@ -115,22 +101,20 @@ client.on('interactionCreate', async interaction =>{
 
         if(interaction.commandName == 'top621') return util.top621(interaction)
 
+        // Assigns user roles
         if (interaction.commandName == 'role') 
         {
             if (interaction.options.getSubcommand() == 'add') return roles.createMenu(interaction, 'add_role')
             if (interaction.options.getSubcommand() == 'remove') return roles.createMenu(interaction, 'remove_role')
         }
+
+        if (interaction.commandName == 'bb') return util.bb(interaction)
         
         
         // Game Commands
-        // if(interaction.commandName == 'quiz') return games.quiz(interaction, db)
         if(interaction.commandName == 'roll') return games.roll(interaction)
-        // if(interaction.commandName == 'guessnumber') return games.guessNumber(interaction, db)
         if(interaction.commandName == 'coinflip') return games.coinflip(interaction)
 
-        // Bank Commands
-        // if(interaction.commandName == 'bank') return bank.bank(interaction, db)
-        // if(interaction.commandName == 'pay') return bank.pay(interaction, db)
     }
 
     
