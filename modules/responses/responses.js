@@ -24,7 +24,7 @@ async function help_mods(message){
             [Fan Made Mods Folder](https://mega.nz/folder/Vk0CVSIQ#KHCffROl-7_3d71QxBNoTQ)
             [Modding Channel](https://discord.com/channels/789252395015733248/834042106955169823)
             [Download the Modding Tool](https://github.com/bunfan/beat-banger-modding-tool/releases)
-            [How To Mod](https://github.com/bunfan/beat-banger-modding-tool/wiki/Using-the-Modding-Tool)
+            [How To Mod](https://github.com/bunfan/beat-banger-modding-tool/wiki/Using-Beat-Banger-Modding-Tool-v1.22)
             `
         },
     )
