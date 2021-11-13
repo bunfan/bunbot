@@ -126,6 +126,11 @@ exports.bb = async (interaction) => {
         .setURL("https://mega.nz/folder/Vk0CVSIQ#KHCffROl-7_3d71QxBNoTQ")
         interaction.reply({embeds: [embed], ephemeral: true})
     } 
+    
+    if (interaction.options.getSubcommand() == 'faq')
+    {
+        interaction.reply('https://github.com/bunfan/beat-banger-public/wiki/FAQ')
+    } 
 
 }
 

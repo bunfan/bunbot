@@ -11,7 +11,12 @@ exports.data = [
         options: [
             {
                 name: 'mods',
-                description: "Give yourself some roles",
+                description: "Download some sexy mods",
+                type: 'SUB_COMMAND'
+            },
+            {
+                name: 'faq',
+                description: "For info about all things Beat Banger",
                 type: 'SUB_COMMAND'
             }
         ]
