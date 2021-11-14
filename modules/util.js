@@ -6,7 +6,9 @@ const fetch = require('node-fetch')
 
 exports.profile = async (interaction)=>{
 
-    var user_param = interaction.options.get('user')
+    console.log(interaction)
+
+    // var user_param = interaction.options.get('user')
 
     user = user_param != null ? user_param.user : interaction.user
     member = user_param != null ? user_param.member : interaction.member

@@ -22,6 +22,10 @@ exports.data = [
         ]
     },
     {
+        name: 'Hug',
+        type: "USER"
+    },
+    {
         name: 'role',
         description: 'Manage your roles!',
         options: [
@@ -66,32 +70,6 @@ exports.data = [
                 ]
             },
             
-        ],
-    },
-    // Dice Roll
-    {   
-        name: 'roll',
-        description: 'Roll the dice',
-        options: [
-            {
-                name: 'maximum',
-                type: 'INTEGER',
-                description: 'Number of sides on die',
-                required: false,
-            },
-        ]
-    },
-    // Profile
-    {
-        name: 'profile',
-        description: 'Information about YOU!',
-        options: [
-            {
-                name: 'user',
-                type: 'USER',
-                description: 'User to view',
-                required: false,
-            }
         ],
     },
     // Report a user

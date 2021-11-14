@@ -56,22 +56,9 @@ exports.beatBanger = async (client, interaction)=>{
 
     interaction.options.map(async choice =>{
 
-        if(choice.value == "help") return help()
-        if(choice.value == "version") return version()
+        if(choice.value == "help") return help() 
 
     });
-
-    async function version() {
-    
-        axios.get('https://firestore.googleapis.com/v1/projects/bunfan-db/databases/(default)/documents/beat-banger/info')
-        .then(async res =>{
-            let version = res.data.fields.version.stringValue
-            let embed = new Discord.MessageEmbed()
-            .setDescription(`Beat Banger is currently on version \`${version}\``)
-            await interaction.reply({ embeds: [embed] })
-        })
-
-    }
 
     async function help(){
 
@@ -123,17 +110,6 @@ exports.todo = async message => {
       })
 
     console.log(res.data);
-
-    // let issue = res.data
-    // let label = (issue.labels.length > 0 ? issue.labels[0].name : "No Label")
-
-    // let embed = new Discord.MessageEmbed()
-    // .setTitle(`Issue #20 [${label}]`)
-    // .setAuthor(issue.title)
-    // .setDescription(issue.body)
-    // .setURL(issue.html_url)
-    // .setFooter(`Posted by ${issue.user.login}`)
-    // message.channel.send({embeds: [embed]})
 
 }
 
