@@ -4,28 +4,6 @@ const { request } = require("@octokit/core");
 
 
 
-exports.report = async (client, interaction) =>{
-
-    let user = interaction.options.get('user').value
-    let report = interaction.options.get('report').value
-    
-    let embed = new Discord.MessageEmbed()
-    .setAuthor(`Report from ${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
-    .setColor('#00f')
-    // .setThumbnail(user.avatarURL([{format:"png"}]))
-    .setDescription(`
-    The user <@${user}> has been reported for the following reason : 
-    ----------------
-    ${report}
-    `)
-    .setFooter(`Reported in #${interaction.channel.name}`)
-    .setTimestamp()
-   
-    let mod_guild = client.guilds.resolve('843703074996486184')
-    mod_guild.channels.resolve('852798849087963156').send({ content: "<@&852373611066818560>",embeds: [embed] })
-    await interaction.reply({content:`Reported user <@${user}>. Thanks for submitting!`, ephemeral: true})
-
-}
 
 exports.links = async (client, interaction)=>{
 

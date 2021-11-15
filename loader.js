@@ -1,10 +1,6 @@
 const { Client } = require('discord.js');
 const fs = require('fs')
 
-/**
- * 
- * @param {Client} client 
- */
 exports.load_commands = (client) => {
 
     // Get and require events
