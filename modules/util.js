@@ -30,46 +30,6 @@ exports.profile = async (interaction)=>{
 
 }
 
-// SERVER INFO
-exports.serverInfo = async (interaction)=>{
-
-    let embed = new Discord.MessageEmbed()
-    .setAuthor(`Server Information : ${interaction.guild.name}`, interaction.guild.iconURL())
-    .setDescription(`
-
-    **General Information**
-
-    - Server Name : ${interaction.guild.name}
-    - Server ID : ${interaction.guild.id}
-    - Server Owner : <@${interaction.guild.ownerId}>
-    - Vanity URL : https://discord.gg/${interaction.guild.vanityURLCode} 
-
-    **Member Information**
-
-    - Total Members : ${interaction.guild.memberCount}
-    - Total Boosts : ${interaction.guild.premiumSubscriptionCount}
-    - Boost Tier : ${interaction.guild.premiumTier}
-
-    **Enabled Features**
-
-    ${interaction.guild.features.join("\n")}
-
-    **Emojis**
-    
-    ${interaction.guild.emojis.cache.map(e => e).join(" ")}
-
-    **Other information**
-
-    - Partner Status : ${interaction.guild.partnered ? "Parterned" : "Not Partnered"}
-    - Preferred Locale : ${interaction.guild.preferredLocale}
-    - NSFW Level : ${interaction.guild.nsfwLevel}
-
-    `)
-    .setTimestamp()
-    .setFooter(`requested by #${interaction.user.tag}`, interaction.user.avatarURL([{format:"png"}]))
-    await interaction.reply({ embeds: [embed] })
-
-}
 
 exports.top621 = async interaction =>{
 
@@ -116,26 +76,5 @@ exports.get_server = async (client, message, id)=>{
         .catch(err => console.log(err))
 
 }
-
-exports.bb = async (interaction) => {
-
-    // return console.log(interaction.options.getSubcommand())
-
-    if (interaction.options.getSubcommand() == 'mods')
-    {
-        let embed = new Discord.MessageEmbed()
-        .setTitle("✨ Click here to view all fan-made mods! ✨")
-        .setURL("https://mega.nz/folder/Vk0CVSIQ#KHCffROl-7_3d71QxBNoTQ")
-        interaction.reply({embeds: [embed], ephemeral: true})
-    } 
-    
-    if (interaction.options.getSubcommand() == 'faq')
-    {
-        interaction.reply('https://github.com/bunfan/beat-banger-public/wiki/FAQ')
-    } 
-
-}
-
-
 
 

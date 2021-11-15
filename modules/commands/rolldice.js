@@ -1,8 +1,6 @@
-require('dotenv').config()
-const {Client, CommandInteraction} = require('discord.js')
+const Discord = require('discord.js')
 
-
-exports.roll = {
+module.exports = {
 
     name: 'roll',
     description: 'Roll the dice',
@@ -14,12 +12,6 @@ exports.roll = {
             required: false,
         },
     ],
-    /**
-     * 
-     * @param {Client} client 
-     * @param {CommandInteraction} interaction 
-     * @param {String[]} args 
-     */
     run: async (client, interaction, args) =>{
 
         // Get value from command
@@ -37,16 +29,5 @@ exports.roll = {
     }
 
     
-
-}
-
-exports.coinflip = async (interaction)=>{
-
-    let rng = (Math.random() < 0.5)
-    let side = rng ? 'Heads' : 'Tails'
-
-    let embed = new Discord.MessageEmbed()
-    .setDescription(`You got **${side}**`)
-    interaction.reply({embeds: [embed]})
 
 }

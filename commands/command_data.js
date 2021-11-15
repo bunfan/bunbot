@@ -5,57 +5,17 @@
 // }
 
 // exports.data = [
-//     {
-//         name: 'bb',
-//         description: 'All Beat Banger Related Commands',
-//         options: [
-//             {
-//                 name: 'mods',
-//                 description: "Download some sexy mods",
-//                 type: 'SUB_COMMAND'
-//             },
-//             {
-//                 name: 'faq',
-//                 description: "For info about all things Beat Banger",
-//                 type: 'SUB_COMMAND'
-//             }
-//         ]
-//     },
+// /
+
 //     {
 //         name: 'Hug',
 //         type: "USER"
 //     },
-//     {
-//         name: 'role',
-//         description: 'Manage your roles!',
-//         options: [
-//             {
-//                 name: 'add',
-//                 description: "Give yourself some roles",
-//                 type: 'SUB_COMMAND',
-//             },
-//             {
-//                 name: 'remove',
-//                 description: "Remove your roles",
-//                 type: 'SUB_COMMAND',
-//             },
-//         ]
-//     },
-//     // Coin flip
-//     {
-//         name: 'coinflip',
-//         description: 'Flip a coin',
-//     },
+//    
+
 //     // Info
 //     {
-//         name: 'info',
-//         description: 'Information',
-//         options: [
-//             {
-//                 name: 'server',
-//                 description: "Get server info",
-//                 type: 'SUB_COMMAND',
-//             },
+
 //             {
 //                 name: 'user',
 //                 description: "Get user info",
@@ -72,43 +32,5 @@
             
 //         ],
 //     },
-//     // Report a user
-//     {
-//         name: 'report',
-//         description: 'Report a user',
-//         options: [
-//             {
-//                 name: 'user',
-//                 type: 'USER',
-//                 description: 'User to report',
-//                 required: true,
-//             },
-//             {
-//                 name:'report',
-//                 type:'STRING',
-//                 description:'Incedent details',
-//                 required: true,
-//             },
-//         ],
-//     },
-//     // Pay another user
-//     {
-//         name: 'pay',
-//         description: 'Pay a user some BunBucks',
-//         options: [
-//             {
-//                 name:'user',
-//                 type:'USER',
-//                 description:'User to pay',
-//                 required: true
-//             },
-//             {
-//                 name:'amount',
-//                 type:'INTEGER',
-//                 description:'amount to pay',
-//                 required: true
-//             },
-//         ],
-//     },
-
+//
 // ]
