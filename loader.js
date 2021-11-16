@@ -1,22 +1,27 @@
 const { Client } = require('discord.js');
 const fs = require('fs')
+const glob = require ('glob')
 
-exports.load_commands = (client) => {
+exports.load_commands = async (client) => {
 
-    // Get and require events
-    const event_files = fs.readdirSync('./events/').filter(file => file.endsWith('.js'))
-    event_files.map((value) => require(`./events/${value}`))
+    // Get all event scripts
+    glob('./events/*.js', [], (err, files) =>{
+        files.map((value) => {
+            require(value)
+            console.log(`Loaded Event ${value}`)
+        })
+    })
 
     // Get Command files
-    const command_files = fs.readdirSync('./modules/commands/').filter(file => file.endsWith('.js'))
-
-    // Require and Set Commands
     var command_array = []
-    command_files.map((cmd) => {
-        const file = require(`./modules/commands/${cmd}`)
-        if(!file?.name) return console.log(`File ${cmd} doesn't have a "name" param`)
-        command_array.push(file)
-        client.commands.set(file.name, file)
+     glob('./modules/commands/**/*.js', [], (err, files) =>{
+        files.map((value) => {
+            const file = require(value)
+            if(!file?.name) return console.log(`File ${value} doesn't have a "name" param`)
+            command_array.push(file)
+            client.commands.set(file.name, file)
+            console.log(`Loaded Command ${value}`)
+        })
     })
 
     client.on("ready", async () => {
