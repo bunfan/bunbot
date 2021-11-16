@@ -1,6 +1,6 @@
 const client = require("../index");
 
 client.on("messageCreate", async (message) => {
-    console.log(message.stickers)
+    console.log(message)
     
 });
