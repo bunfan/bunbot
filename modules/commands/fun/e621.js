@@ -36,19 +36,20 @@ module.exports = {
     ],
     run: async (client, interaction, options) => {
 
+        
         if (options.getSubcommand() == 'top'){
 
-        // Get options
-        var tags = options.getString('tags')
+            // Get options
+            var tags = options.getString('tags')
 
-        // Query e621
-        var query = await e.getPosts([tags, 'order:favcount'],1)
-        if (query.length < 1) return interaction.reply({content: `Could not find posts for "${tags}""`, ephemeral: true})
+            // Query e621
+            var query = await e.getPosts([tags, 'order:favcount'],1)
+            if (query.length < 1) return interaction.reply({content: `Could not find posts for "${tags}""`, ephemeral: true})
 
-        // Create URL from query
-        var url = `https://e621.net/posts/${query[0].id}`
+            // Create URL from query
+            var url = `https://e621.net/posts/${query[0].id}`
 
-        interaction.reply({content: url})
+            interaction.reply({content: url})
 
         }
 
@@ -59,7 +60,7 @@ module.exports = {
     
             // Query e621
             var query = await e.getPosts([tags, 'order:random score:>50'],1)
-            if (query.length < 1) return interaction.reply({content: `Could not find posts for "${tags}""`, ephemeral: true})
+            if (query.length < 1) return interaction.reply({content: `Could not find posts for "${tags}"`, ephemeral: true})
     
             // Create URL from query
             var url = `https://e621.net/posts/${query[0].id}`
