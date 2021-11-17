@@ -1,6 +1,8 @@
 const client = require("../index");
+const ResponseHandler = require("../modules/responses/responses")
+const responseHandler = new ResponseHandler()
 
 client.on("messageCreate", async (message) => {
-    return false
-    
+    if (message.author.bot) return
+    responseHandler.check(message)
 });
