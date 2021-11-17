@@ -4,10 +4,14 @@ const client = require("../index");
 const Util = require('../util')
 const util = new Util()
 
-
-client.on("ready", () => {
-    console.log(`${client.user.tag} is online.`) 
+client.on("guildMemberAdd", async (member) => {
+    
     util.updateUserCount(client)
+    
 });
 
-
+client.on("guildMemberRemove", async (member) => {
+    
+    util.updateUserCount(client)
+    
+});
