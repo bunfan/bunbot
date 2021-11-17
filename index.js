@@ -1,8 +1,13 @@
 // get .env config 
 require('dotenv').config()
 
-// Get loader file
-const loader = require('./loader')
+// Get Permission
+const PermissionHandler = require('./modules/permissions/permissions')
+const permissionHandler = new PermissionHandler()
+
+// Get Command Loader
+const CommandLoader = require('./commandLoader')
+const commandLoader = new CommandLoader()
 
 // Gets the discord client
 const { Client, Intents, Collection } = require('discord.js');
@@ -21,9 +26,12 @@ const client = new Client({
 module.exports = client
 
 client.commands = new Collection()
+client.commandInfo = new Map()
 
 // Load commands
-loader.load_commands(client)
+commandLoader.loadCommands(client)
+permissionHandler.setCommandPermissions(client)
+
 
 // Login
 client.login(process.env.TOKEN)
