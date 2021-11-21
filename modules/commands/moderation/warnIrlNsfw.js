@@ -16,6 +16,14 @@ module.exports = {
     The user ${user} has been warned by ${interaction.member} for **Posting IRL NSFW content**`)
     .setFooter(`Warned in #${interaction.channel.name}`)
     .setTimestamp()
+
+    // Send message to user
+    let embed2 = new Discord.MessageEmbed()
+    .setAuthor(`Moderation Team`)
+    .setColor('#00f')
+    .setDescription(`You have been warned by the moderation team for **Posting IRL NSFW content**`)
+    .setTimestamp()
+    user.send({embeds: [embed2]})
    
     let mod_guild = client.guilds.resolve('843703074996486184')
     mod_guild.channels.resolve('907268958745411614').send({embeds: [embed]})
