@@ -9,6 +9,7 @@ class PermissionHandler{
     async setCommandPermissions(client){
 
         const modCommands = [
+            // Warning context menu commands
             '910615984526749706',
             '910615984526749707',
             '910619141810032641'
